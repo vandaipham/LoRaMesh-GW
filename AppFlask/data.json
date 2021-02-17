@@ -1,0 +1,20 @@
+{"nodes":
+[
+{"id":"0", "label":"0x0000"}
+,{"id":"1", "label":"0x0001"}
+,{"id":"2", "label":"0x0002"}
+,{"id":"3", "label":"0x0003"}
+,{"id":"4", "label":"0x0004"}
+,{"id":"5", "label":"0x0005"}
+,{"id":"6", "label":"0x0006"}
+],
+"edges":
+[
+{"from":"0", "to":"1", "label":"50"}
+,{"from":"1", "to":"2", "label":"23"}
+,{"from":"0", "to":"3", "label":"21"}
+,{"from":"0", "to":"4", "label":"30"}
+,{"from":"3", "to":"5", "label":"23"}
+,{"from":"4", "to":"6", "label":"30", "color":{"color":"green", "highlight":"blue"}, "arrows":{"to":{"scaleFactor":"1.25", "type":"circle"}}}
+]
+}

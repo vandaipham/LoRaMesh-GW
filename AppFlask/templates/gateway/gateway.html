@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div>
+    <h1></h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<div>
+    
+    <h1>Show Picture</h1>
+
+    <img src="" id="showImage" />
+
+    <script type="text/javascript">
+        function showPicture() {
+            fetch('./static/images/photo.jpg')
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    }
+                    return response.blob();
+                })
+                .then(myBlob => {
+                    console.log('show image');
+                    document.getElementById('showImage').src = URL.createObjectURL(myBlob);
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+        showPicture();
+        setInterval(showPicture, 5000);
+        
+    </script>
+</div>
+
+<div>
+    <h1>Топология Сети</h1>
+
+    <div id="mynetwork"></div>
+
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style type="text/css">
+        #mynetwork {
+            width: 800px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+    
+    <script type="text/javascript">
+        function displayTopology() {
+            // create a network
+            var container = document.getElementById('mynetwork');
+
+            //offset for protocol type in loop
+            fetch('http://127.0.0.1:5000/api/topology')
+                .then(function(response) {
+                return response.json();
+                })
+                .then(function(myJson) {
+                    console.log(myJson);
+                    var data = {
+                        nodes: myJson.nodes,
+                        edges: myJson.edges,
+                    };
+
+                    var options = {
+                        autoResize: true,height:'100%',width: '100%',
+                        groups: {
+                            ipv4: {color:{background:'red'}, borderWidth:3},
+                            ipv6: {color:{background:'green'}, borderWidth:3}
+                        }
+                    };
+                    var network = new vis.Network(container, data, options);
+                });
+        }
+        displayTopology();
+        setInterval(displayTopology, 10000);
+    </script>
+
+</div>
+{% endblock %}
