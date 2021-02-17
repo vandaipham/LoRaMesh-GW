@@ -14,21 +14,24 @@
     <img src="" id="showImage" />
 
     <script type="text/javascript">
+        //function showPicture() {
+        //    fetch('http://127.0.0.1:5000/api/get_image')
+        //        .then(response => {
+        //            if (!response.ok) {
+        //            throw new Error('Network response was not ok');
+        //            }
+        //            return response.blob();
+        //        })
+        //        .then(myBlob => {
+        //            console.log('show image');
+        //            document.getElementById('showImage').src = URL.createObjectURL(myBlob) + new Date().getTime();
+        //        })
+        //        .catch(error => {
+        //            console.error('There has been a problem with your fetch operation:', error);
+        //        });
+        //}
         function showPicture() {
-            fetch('./static/images/photo.jpg')
-                .then(response => {
-                    if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                    }
-                    return response.blob();
-                })
-                .then(myBlob => {
-                    console.log('show image');
-                    document.getElementById('showImage').src = URL.createObjectURL(myBlob);
-                })
-                .catch(error => {
-                    console.error('There has been a problem with your fetch operation:', error);
-                });
+            document.getElementById('showImage').src = "http://192.168.1.131:5000/api/get_image?" + new Date().getTime();
         }
         showPicture();
         setInterval(showPicture, 5000);
@@ -56,7 +59,7 @@
             var container = document.getElementById('mynetwork');
 
             //offset for protocol type in loop
-            fetch('http://127.0.0.1:5000/api/topology')
+            fetch('http://192.168.1.131:5000/api/topology')
                 .then(function(response) {
                 return response.json();
                 })

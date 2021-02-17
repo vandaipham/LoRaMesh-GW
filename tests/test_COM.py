@@ -12,24 +12,32 @@ port = serial.Serial(
 print("Connected to: " + port.port)
 
 portBuffer = bytearray()
+recvTime = 0
 
 while True:
-	try:
-		while port.inWaiting() > 0:
+    try:
+        while port.inWaiting() > 0:
             recvTime = time.time()
             portBuffer += port.read()
-            time.sleep(1)
-            
-        if time.time() - recvTime > 30:
-            postBuffer = bytearray()
-            for i in range(0,len(portBuffer)):
+        time.sleep(1)
+
+
+        if (time.time() - recvTime > 10) and len(portBuffer) != 0:
+            print(portBuffer.hex())
+
+            imageBuffer = bytearray()
+            for i in range(0, len(portBuffer)):
                 if i < len(portBuffer) - 5:
                     if portBuffer[i] == 5 and portBuffer[i+1] == 0 and portBuffer[i+2] == 130:
-                        for j in range(0,portBuffer[i+7]-2):
-                            postBuffer.append(portBuffer[i+10+j])
-            f = open("received.jpg" , "wb")
-		    f.write(postBuffer)
-		    f.close()
+                        for j in range(0, portBuffer[i+7]-2):
+                            imageBuffer.append(portBuffer[i+10+j])
+            
+            f = open("D:\Dev_Workspace\LoRaMesh-GW\AppFlask\static\images\image.jpg", "wb")
+            f.write(imageBuffer)
+            f.close()
             portBuffer = bytearray()
-    except:
-        print("An exception occurred")
+
+    except KeyboardInterrupt:
+        print("An exception")
+        print("Good bye")
+        break
