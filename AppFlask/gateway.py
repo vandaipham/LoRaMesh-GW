@@ -8,25 +8,30 @@ from flask import jsonify
 import json
 from flask import send_file
 
+from os.path import join, dirname, realpath
 
 bp = Blueprint('gateway', __name__)
 
 @bp.route('/gateway')
 @login_required
 def gateway():
-    return render_template('gateway/gateway.html')
-
+    return render_template('gateway/gateway_new.html')
 
 @bp.route('/api/topology')
 @login_required
 def get_topology():
-    f = open('D:\Dev_Workspace\LoRaMesh-GW\AppFlask\data.json')
-    data = json.load(f)
-    f.close()
-    return jsonify(data)
+    data = getJson()
+    return data
 
 @bp.route('/api/get_image')
 @login_required
 def get_image():
-    filename = 'D:\Dev_Workspace\LoRaMesh-GW\AppFlask\static\images\image.jpg'
+    filename = './static/images/image.jpg'
     return send_file(filename, mimetype='image/jpg')
+
+def getJson():
+    dataPath = join(dirname(realpath(__file__)), 'static/data.json')
+    f = open(dataPath)
+    data = json.load(f)
+    f.close()
+    return data

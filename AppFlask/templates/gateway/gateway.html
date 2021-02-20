@@ -1,17 +1,60 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<div>
-    <h1></h1>
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    .column {
+      float: left;
+      width: 40%;
+      padding: 5px;
+    }
+    
+    /* Clearfix (clear floats) */
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+</style>
+
+<div class="center">
+    <h1>LoRa Mesh</h1>
+    <h1>Энергоэффективная Ячеистая Сеть Дальнего Радиуса Действия</h1>
 </div>
 {% endblock %}
 
 {% block content %}
-<div>
-    
-    <h1>Show Picture</h1>
 
-    <img src="" id="showImage" />
+<div class="row">
+    <div class="column">
+        <div class="center">
+            <h2>Полученное изображение</h2>
+            <img src="" id="showImage" />
+        </div>
+    </div>
+    
+    <div class="column">
+        <div class="center">
+            <h2>Топология Сети</h2>
+            <div id="mynetwork"></div>
+        </div>
+    </div>
+    
+</div>
 
     <script type="text/javascript">
         //function showPicture() {
@@ -31,25 +74,21 @@
         //        });
         //}
         function showPicture() {
-            document.getElementById('showImage').src = "http://192.168.1.131:5000/api/get_image?" + new Date().getTime();
+            document.getElementById('showImage').src = "http://192.168.1.105:5000/api/get_image?" + new Date().getTime();
         }
         showPicture();
         setInterval(showPicture, 5000);
         
     </script>
-</div>
-
-<div>
-    <h1>Топология Сети</h1>
-
-    <div id="mynetwork"></div>
 
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <style type="text/css">
         #mynetwork {
             width: 800px;
-            height: 600px;
-            border: 1px solid lightgray;
+            height: 500px;
+            border: 0.5px solid lightgray;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
     
@@ -59,7 +98,7 @@
             var container = document.getElementById('mynetwork');
 
             //offset for protocol type in loop
-            fetch('http://192.168.1.131:5000/api/topology')
+            fetch('http://192.168.1.105:5000/api/topology')
                 .then(function(response) {
                 return response.json();
                 })
@@ -69,13 +108,8 @@
                         nodes: myJson.nodes,
                         edges: myJson.edges,
                     };
-
                     var options = {
                         autoResize: true,height:'100%',width: '100%',
-                        groups: {
-                            ipv4: {color:{background:'red'}, borderWidth:3},
-                            ipv6: {color:{background:'green'}, borderWidth:3}
-                        }
                     };
                     var network = new vis.Network(container, data, options);
                 });
@@ -83,6 +117,4 @@
         displayTopology();
         setInterval(displayTopology, 10000);
     </script>
-
-</div>
 {% endblock %}

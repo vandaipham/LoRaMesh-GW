@@ -1,0 +1,28 @@
+{"nodes":
+[
+{"id":"0", "label":"Gateway", "shape":"image", "image":"./static/images/GW.png"}
+,{"id":"1", "label":"0x0001"}
+,{"id":"2", "label":"0x0002"}
+,{"id":"3", "label":"0x0003"}
+,{"id":"4", "label":"0x0004"}
+,{"id":"5", "label":"0x0005"}
+,{"id":"6", "label":"0x0006"}
+,{"id":"7", "label":"Server Cloud", "shape":"image", "image":"./static/images/cloud.png"}
+,{"id":"8", "label":"0x0008"}
+,{"id":"9", "label":"0x0009"}
+,{"id":"10", "label":"0x0010"}
+],
+"edges":
+[
+{"from":"0", "to":"1", "label":"10"}
+,{"from":"1", "to":"2", "label":"13"}
+,{"from":"0", "to":"3", "label":"11"}
+,{"from":"0", "to":"4", "label":"10"}
+,{"from":"3", "to":"5", "label":"13"}
+,{"from":"4", "to":"6", "label":"10"}
+,{"from":"0", "to":"7"}
+,{"from":"8", "to":"3", "label":"15"}
+,{"from":"9", "to":"8", "label":"12"}
+,{"from":"10", "to":"0", "label":"22"}
+]
+}

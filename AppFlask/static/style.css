@@ -5,17 +5,25 @@ html {
   }
   
   body {
-    max-width: 960px;
+    max-width: 1500px;
     margin: 0 auto;
-    background: white;
+    background: rgb(248, 240, 240);
   }
   
   h1, h2, h3, h4, h5, h6 {
     font-family: serif;
-    color: #377ba8;
+    color: #d19740;
     margin: 1rem 0;
   }
   
+  h1 {
+    font-size: 40px;
+  }
+
+  h2 {
+    font-size: 30px;
+    color: #56dee2;
+  }
   a {
     color: #377ba8;
   }
@@ -26,7 +34,7 @@ html {
   }
   
   nav {
-    background: lightgray;
+    background: rgb(238, 236, 236);
     display: flex;
     align-items: center;
     padding: 0 0.5rem;

@@ -1,8 +1,10 @@
 import serial
 import time
+from os.path import join, dirname, realpath
+import os
 
 port = serial.Serial(
-    port='COM3',\
+    port='/dev/ttyS0',\
     baudrate=9600,\
     parity=serial.PARITY_NONE,\
     stopbits=serial.STOPBITS_ONE,\
@@ -16,14 +18,21 @@ recvTime = 0
 
 while True:
     try:
+        dataShow = bytearray()
         while port.inWaiting() > 0:
             recvTime = time.time()
-            portBuffer += port.read()
+            readByte = port.read()
+            portBuffer += readByte
+            dataShow += readByte
+            #print(portBuffer.hex())
+            if len(dataShow) > 20:
+                print("> " + " ".join("%02x" % i for i in dataShow) + " .........")
+                dataShow = bytearray()
         time.sleep(1)
 
 
-        if (time.time() - recvTime > 10) and len(portBuffer) != 0:
-            print(portBuffer.hex())
+        if (time.time() - recvTime > 5) and len(portBuffer) != 0:
+            print("Новое изображение было получено!\n")
 
             imageBuffer = bytearray()
             for i in range(0, len(portBuffer)):
@@ -32,7 +41,9 @@ while True:
                         for j in range(0, portBuffer[i+7]-2):
                             imageBuffer.append(portBuffer[i+10+j])
             
-            f = open("D:\Dev_Workspace\LoRaMesh-GW\AppFlask\static\images\image.jpg", "wb")
+            dataPath = join(dirname(realpath(__file__)), '../AppFlask/static/images/image.jpg')
+            #os.remove(dataPath)
+            f = open(dataPath, "wb")
             f.write(imageBuffer)
             f.close()
             portBuffer = bytearray()
