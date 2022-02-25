@@ -4,7 +4,7 @@ from os.path import join, dirname, realpath
 import os
 
 port = serial.Serial(
-    port='/dev/ttyS0',\
+    port='/dev/ttyUSB0',\
     baudrate=9600,\
     parity=serial.PARITY_NONE,\
     stopbits=serial.STOPBITS_ONE,\
@@ -23,21 +23,21 @@ while True:
         dataShow = bytearray()
         while port.inWaiting() > 0:
             recvTime = time.time()
-            #readByte = port.read()
-            portBuffer += port.read()
-            #dataShow += readByte
+            readByte = port.read()
+            portBuffer += readByte
+            dataShow += readByte
             #print(portBuffer.hex())
-            #if len(dataShow) > 20:
-            #    print("> " + " ".join("%02x" % i for i in dataShow) + " .........")
+            if len(dataShow) > 20:
+                print("> " + " ".join("%02x" % i for i in dataShow) + " .........")
             #    c = c + 1
-            #    dataShow = bytearray()
+                dataShow = bytearray()
         time.sleep(1)
 
 
         if (time.time() - recvTime > 5) and len(portBuffer) != 0:
-            #print("Новое изображение было получено!\n")
+            print("Новое изображение было получено!\n")
             #print("Recieved size = " + str(c*20))
-            print("Length of portBuffer = %d" % len(portBuffer))
+            #print("Length of portBuffer = %d" % len(portBuffer))
 
             count += 1
             imageBuffer = bytearray()
@@ -48,10 +48,10 @@ while True:
                         for j in range(0, portBuffer[i+7]-2):
                             imageBuffer.append(portBuffer[i+10+j])
             
-            print("Number of packets = %d" % c)
+            #print("Number of packets = %d" % c)
             c = 0
-            print("Image size = %d" % len(imageBuffer))
-            dataPath = join(dirname(realpath(__file__)), '../AppFlask/static/images/image_' + str(count) + '.jpg')
+            #print("Image size = %d" % len(imageBuffer))
+            dataPath = join(dirname(realpath(__file__)), '../AppFlask/static/images/image.jpg')
             #os.remove(dataPath)
             f = open(dataPath, "wb")
             f.write(imageBuffer)

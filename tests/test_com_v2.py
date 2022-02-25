@@ -4,7 +4,7 @@ from os.path import join, dirname, realpath
 import os
 
 port = serial.Serial(
-    port = '/dev/ttyS0',\
+    port = '/dev/ttyUSB0',\
     baudrate=9600,\
     parity = serial.PARITY_NONE,\
     stopbits=serial.STOPBITS_ONE,\
